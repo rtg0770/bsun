@@ -1,0 +1,40 @@
+<mat-toolbar class="flex-container">
+  <a class="logo-wrapper"
+    ><img src="./assets/icons/solar_power.svg" alt="logo solar power"
+  /></a>
+  <button [routerLink]="'/home'">
+    <mat-icon
+      aria-hidden="false"
+      aria-label="logo icon"
+      svgIcon="request-quote"
+    ></mat-icon
+    >Request a quote
+  </button>
+  <button
+    mat-icon-button
+    aria-label="Example icon button with a menu icon"
+    class="menu-toggle"
+    (click)="sidenav.toggle()"
+  >
+    <mat-icon
+      aria-hidden="false"
+      aria-label="menu icon"
+      svgIcon="menu"
+    ></mat-icon>
+  </button>
+</mat-toolbar>
+
+<mat-sidenav-container>
+  <mat-sidenav #sidenav [mode]="sidenavMode" opened="false">
+    <nav>
+      <button
+        mat-button
+        [routerLink]="['/home']"
+        routerLinkActive="router-link-active"
+      >
+        Home
+      </button>
+    </nav>
+  </mat-sidenav>
+  <mat-sidenav-content><ng-content></ng-content> </mat-sidenav-content>
+</mat-sidenav-container>

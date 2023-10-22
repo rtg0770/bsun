@@ -1,0 +1,30 @@
+@import '../../../../../shared-styles/src/lib/breakpoints';
+@import '../../../../../shared-styles/src/lib/mixins';
+
+.logo-wrapper {
+    display: block;
+    margin-top: 4px;
+}
+
+.mat-toolbar {
+    height: 79px;
+    background-color: #636C77;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.menu-toggle {
+    border: 0;
+    &:hover {
+        text-decoration: none;
+    }
+}
+
+mat-sidenav-container {
+    background-color: whitesmoke;
+}
