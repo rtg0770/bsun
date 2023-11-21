@@ -6,9 +6,7 @@
   "targets": {
     "build": {
       "executor": "@nx/webpack:webpack",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
         "target": "node",
@@ -16,9 +14,7 @@
         "outputPath": "dist/apps/brussels-cloud",
         "main": "apps/brussels-cloud/src/main.ts",
         "tsConfig": "apps/brussels-cloud/tsconfig.app.json",
-        "assets": [
-          "apps/brussels-cloud/src/assets"
-        ],
+        "assets": ["apps/brussels-cloud/src/assets"],
         "isolatedConfig": true,
         "webpackConfig": "apps/brussels-cloud/webpack.config.js"
       },
@@ -43,30 +39,17 @@
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": [
-        "{options.outputFile}"
-      ],
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "apps/brussels-cloud/**/*.ts"
-        ]
+        "lintFilePatterns": ["apps/brussels-cloud/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/{projectRoot}"
-      ],
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/brussels-cloud/jest.config.ts",
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
-        }
+        "jestConfig": "apps/brussels-cloud/jest.config.ts"
       }
     }
   },
