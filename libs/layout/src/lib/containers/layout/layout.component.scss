@@ -28,3 +28,30 @@
 mat-sidenav-container {
     background-color: whitesmoke;
 }
+
+mat-sidenav-content {
+    display: block;
+    padding: 24px;
+}
+
+mat-sidenav {
+    min-width: 35%;
+    max-width: 65%;
+}
+
+.fixed-mat-toolbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+  }
+  
+
+
+footer {
+    color: #F4F6F8;
+    padding: 24px;
+    background-color: #424852;
+    margin-bottom: 0;
+}

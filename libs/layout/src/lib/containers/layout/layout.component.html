@@ -1,8 +1,8 @@
-<mat-toolbar class="flex-container">
-  <a class="logo-wrapper"
+<mat-toolbar class="flex-container fixed-mat-toolbar">
+  <a href="homepage" class="logo-wrapper"
     ><img src="./assets/icons/solar_power.svg" alt="logo solar power"
   /></a>
-  <button [routerLink]="'/home'">
+  <button [routerLink]="'/quote-form'">
     <mat-icon
       aria-hidden="false"
       aria-label="logo icon"
@@ -29,12 +29,13 @@
     <nav>
       <button
         mat-button
-        [routerLink]="['/home']"
+        [routerLink]="'/homepage'"
         routerLinkActive="router-link-active"
       >
         Home
       </button>
     </nav>
   </mat-sidenav>
-  <mat-sidenav-content><ng-content></ng-content> </mat-sidenav-content>
+  <mat-sidenav-content><ng-content></ng-content></mat-sidenav-content>
 </mat-sidenav-container>
+<!--<footer>Bishub Energy Ltd.</footer>-->

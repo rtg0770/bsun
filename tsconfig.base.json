@@ -18,6 +18,8 @@
       "@bishub-energy/layout": ["libs/layout/src/index.ts"],
       "@bishub-energy/public-pages": ["libs/public-pages/src/index.ts"],
       "@bishub-energy/shared": ["libs/shared/src/index.ts"],
+      "@bishub-energy/shared-services": ["libs/shared-services/src/index.ts"],
+      "@bishub-energy/shared-types": ["libs/shared-types/src/index.ts"],
       "@bishub-energy/shared-ui": ["libs/shared-ui/src/index.ts"]
     }
   },

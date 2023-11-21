@@ -16,7 +16,10 @@ import { PublicPagesModule } from '@bishub-energy/public-pages';
     HttpClientModule,
     BrowserAnimationsModule,
     BrowserModule,
-    RouterModule.forRoot(appRoutes, { initialNavigation: 'enabledBlocking' }),
+    RouterModule.forRoot(appRoutes, {
+      initialNavigation: 'enabledBlocking',
+      useHash: true,
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent],

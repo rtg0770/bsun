@@ -1,7 +1,34 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap');
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import '../../../libs/shared-styles/src/lib/mixins';
+@import '../../../libs/shared-styles/src/lib/breakpoints';
+
+html {scroll-behavior: smooth;}
 
 body {
     margin: 0;
     padding: 0;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 400;
     font-size: 1rem;
+    color: #424852;
 }
+
+button, a {
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+h1 {
+    font-weight: 700;
+    font-size: 2rem;
+}
+
+bishub-energy-homepage {
+    display: grid;
+    height: 100vh;
+    grid-template-areas:
+    "content menu";
+}   
