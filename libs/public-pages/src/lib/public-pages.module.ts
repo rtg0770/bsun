@@ -5,17 +5,17 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { QuoteFormComponent } from './quote-form/quote-form.component';
 import { MaterialModule } from '@bishub-energy/shared-ui';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { GoogleMapsAutocompleteComponent } from '@tellycz/google-maps-autocomplete';
+import { GoogleMapsAutocompleteComponent } from '@rng077/google-maps-autocomplete';
 import { ConfigService } from '@bishub-energy/shared-services';
 
 @NgModule({
   imports: [
+    GoogleMapsAutocompleteComponent,
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
     CommonModule,
     PublicPagesRoutingModule,
-    GoogleMapsAutocompleteComponent,
   ],
   declarations: [HomepageComponent, QuoteFormComponent],
   providers: [ConfigService],

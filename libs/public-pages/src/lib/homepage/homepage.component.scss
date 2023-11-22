@@ -1,50 +1,35 @@
 @import '../../../../shared-styles/src/lib/breakpoints';
 @import '../../../../shared-styles/src/lib/mixins';
 
-.image-01 {
-    background-image: url(../../../../../apps/brussels-sun/src/assets/image/house-panels-01.png);
-}
-
-.img-wrapper {
-    display: block;
-    height: 400px;
-    max-width: 712px;
-    background-position: center;
-    background-repeat: no-repeat;
-    border-radius: 4px;
-    border: solid 1px #424852;
-}
-
-/* Make the content-wrapper scrollable */
-.content-wrapper {
-    grid-area: content;
-    margin-top: 102px;
-}
-
-/* Make the chapters-menu-wrapper sticky */
-.chapters-menu-wrapper {
-    display: flex;
-    @include respond-to('medium'){
-        display: block;
-    }
-    grid-area: menu;
-    border-left: 3px solid #66D4F1;
-}
-
-.chapters-menu-wrapper h4 {
-    margin: 0;
-    padding: 1em;
-}
-
-.chapters-menu-wrapper a {
-    display: block;
-    padding: 0.5em 1em;
-    text-decoration: none;
-    color: #333;
-    background-color: #f4f4f4;
-    border-bottom: 1px solid #ddd;
-}
-
-.chapters-menu-wrapper a:hover {
-    background-color: #eee;
-}
+/* Use flexbox to create a two-column layout */
+.parent-container {
+    display: flex; /* This enables flexbox */
+    flex-direction: row; /* This aligns children horizontally */
+  }
+  
+  /* Adjust the .parent-of-sticky to take up 30% of the width */
+  .parent-of-sticky {
+    width: 30%;
+    height: 100vh; /* Full height of the viewport */
+    overflow: auto; /* Allows scrolling */
+    position: relative;
+  }
+  
+  /* Adjust the .content-wrapper to take up the remaining width */
+  .content-wrapper {
+    padding-top: 102px;
+    width: 70%; /* Takes up the remaining space */
+    overflow-y: hidden; /* Enables vertical scrolling if content overflows */
+    height: 100vh; /* Adjust the height as needed */
+  }
+  
+  /* Ensure that .chapters-menu-wrapper is styled to be sticky */
+  .chapters-menu-wrapper {
+    position: fixed;
+    top: 102px; /* Adjust this value if you have a header and you want it below the header */
+    z-index: 100; /* Ensures it stays on top of other content */
+    display: grid;
+    grid-auto-flow: row;
+    grid-gap: 13px;
+  }
+  

@@ -10,10 +10,10 @@ import { ConfigService } from '@bishub-energy/shared-services';
   styleUrls: ['./quote-form.component.scss'],
 })
 export class QuoteFormComponent implements OnInit {
-  @Output() submitForm = new EventEmitter<any>();
+  @Output() submitForm = new EventEmitter<unknown>();
   requestQuoteForm: FormGroup;
   googleMapsApiKey: string;
-
+  selectedCountryCode: string = 'BE';
   /**
    * Initializes the component with necessary services and form setup.
    * @param http HttpClient for making API requests.
@@ -82,7 +82,7 @@ export class QuoteFormComponent implements OnInit {
    * Event handler for when an address is selected in the autocomplete component.
    * @param event The event object containing address data.
    */
-  handleAddressSelect(event: any) {
+  handleAddressSelect(event: unknown) {
     console.log(event);
   }
 
@@ -98,7 +98,7 @@ export class QuoteFormComponent implements OnInit {
    * Event handler for when full address details are selected in the autocomplete component.
    * @param details Object containing the full address details.
    */
-  handleAddressDetailsSelect(details: any): void {
+  handleAddressDetailsSelect(details: unknown): void {
     console.log(details);
   }
 }
