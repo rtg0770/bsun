@@ -31,10 +31,28 @@ export class QuoteFormComponent implements OnInit {
       surname: new FormControl(savedFormData.surname || '', [
         Validators.required,
       ]),
-      email: new FormControl(savedFormData.email || '', [Validators.required]),
+      email: new FormControl(savedFormData.email || '', [
+        Validators.required,
+        Validators.email,
+      ]),
       telephone: new FormControl(savedFormData.telephone || '', [
         Validators.required,
       ]),
+      // New address fields including house number
+      street: new FormControl(savedFormData.street || '', [
+        Validators.required,
+      ]),
+      houseNumber: new FormControl(savedFormData.houseNumber || '', [
+        Validators.required,
+      ]),
+      city: new FormControl(savedFormData.city || '', [Validators.required]),
+      postalCode: new FormControl(savedFormData.postalCode || '', [
+        Validators.required,
+      ]),
+      country: new FormControl(savedFormData.country || '', [
+        Validators.required,
+      ]),
+      // ... any other address fields you need
     });
   }
 
@@ -73,8 +91,14 @@ export class QuoteFormComponent implements OnInit {
             console.log('Failed to send the quote request', error);
           }
         );
+      // If address fields are also valid, convert to coordinates
+      if (this.isAddressComplete()) {
+        // Assuming `isAddressComplete` is a method that checks if all address fields are filled
+        this.convertAddressToCoordinates();
+      }
     } else {
-      console.log('Form is invalid');
+      // Inform the user which fields are invalid
+      this.markAllFieldsAsTouched(); // Utility method to trigger display of validation messages
     }
   }
 
@@ -98,7 +122,67 @@ export class QuoteFormComponent implements OnInit {
    * Event handler for when full address details are selected in the autocomplete component.
    * @param details Object containing the full address details.
    */
-  handleAddressDetailsSelect(details: unknown): void {
-    console.log(details);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  handleAddressDetailsSelect(details: any): void {
+    // Initialize an empty object to hold the address components
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const address: any = {
+      street: '',
+      houseNumber: '',
+      city: '',
+      postalCode: '',
+      country: '',
+    };
+
+    // Iterate over the address components to assign the values to the address object
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    details.address_components.forEach((component: any) => {
+      // Use the types array to determine the type of each address component
+      if (component.types.includes('street_number')) {
+        address.houseNumber = component.long_name;
+      } else if (component.types.includes('route')) {
+        address.street = component.long_name;
+      } else if (component.types.includes('locality')) {
+        address.city = component.long_name;
+      } else if (component.types.includes('postal_code')) {
+        address.postalCode = component.long_name;
+      } else if (component.types.includes('country')) {
+        address.country = component.long_name;
+      }
+      // Add other address components here if needed
+    });
+
+    // Patch the values to the form
+    this.requestQuoteForm.patchValue(address);
+
+    // Optionally, focus on the next empty field in the form or perform other actions
+  }
+
+  // Utility method to mark all fields as touched to show validation errors
+  markAllFieldsAsTouched() {
+    Object.keys(this.requestQuoteForm.controls).forEach((field) => {
+      const control = this.requestQuoteForm.get(field);
+      if (control) {
+        // This check ensures that control is not null
+        control.markAsTouched({ onlySelf: true });
+      }
+    });
+  }
+
+  // Method to check if all address fields are filled
+  isAddressComplete() {
+    return (
+      this.requestQuoteForm.controls['street'].valid &&
+      this.requestQuoteForm.controls['houseNumber'].valid &&
+      this.requestQuoteForm.controls['city'].valid &&
+      this.requestQuoteForm.controls['postalCode'].valid &&
+      this.requestQuoteForm.controls['country'].valid
+    );
+  }
+
+  // Stub for address to coordinates conversion
+  convertAddressToCoordinates() {
+    // Use a geocoding service to convert address to coordinates
+    // Then emit or use the coordinates for the solar API call
   }
 }

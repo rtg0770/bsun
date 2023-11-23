@@ -14,6 +14,16 @@ export class AppComponent {
     private domSanitizer: DomSanitizer
   ) {
     this.matIconRegistry.addSvgIcon(
+      'call',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('/assets/icons/call.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
+      'email',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        '/assets/icons/email.svg'
+      )
+    );
+    this.matIconRegistry.addSvgIcon(
       'menu',
       this.domSanitizer.bypassSecurityTrustResourceUrl('/assets/icons/menu.svg')
     );

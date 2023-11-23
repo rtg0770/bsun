@@ -1,0 +1,5 @@
+<ul *ngIf="documentHtml$ | async as documentHtml">
+  <li *ngFor="let item of tocItems">
+    <a [href]="articleUrl + '#' + item.id">{{ item.text }}</a>
+  </li>
+</ul>

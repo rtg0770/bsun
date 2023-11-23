@@ -10,7 +10,7 @@
   /* Adjust the .parent-of-sticky to take up 30% of the width */
   .parent-of-sticky {
     width: 30%;
-    height: 100vh; /* Full height of the viewport */
+    min-height: 100vh; /* Full height of the viewport */
     overflow: auto; /* Allows scrolling */
     position: relative;
   }
@@ -20,7 +20,7 @@
     padding-top: 102px;
     width: 70%; /* Takes up the remaining space */
     overflow-y: hidden; /* Enables vertical scrolling if content overflows */
-    height: 100vh; /* Adjust the height as needed */
+    min-height: 100vh; /* Adjust the height as needed */
   }
   
   /* Ensure that .chapters-menu-wrapper is styled to be sticky */

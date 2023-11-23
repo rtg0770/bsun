@@ -1,7 +1,31 @@
+@import '../../../../shared-styles/src/lib/breakpoints';
+@import '../../../../shared-styles/src/lib/mixins';
+
 /* Make the content-wrapper scrollable */
 .content-wrapper {
     margin-top: 102px;
 }
+mat-card-title {
+    padding: 13px;
+}
 mat-form-field {
-    width: 500px;
+    width: 100% !important;
+}
+form {
+    display: grid;
+    grid-gap: 13px;
+    grid-template-areas: "cards" "actions";
+    > .cards {
+        display: grid;
+        grid-gap: 13px;
+        grid-template-columns: 1fr;
+        @include respond-to('medium'){
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        grid-area: cards;
+    }
+    > .actions {
+        grid-area: actions;
+    }
 }
