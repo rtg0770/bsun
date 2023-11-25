@@ -1,25 +1,22 @@
 {
-  "name": "brussels-sun",
+  "name": "app-sun",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "bishub-energy",
-  "sourceRoot": "apps/brussels-sun/src",
+  "sourceRoot": "apps/app-sun/src",
   "tags": [],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/brussels-sun",
-        "index": "apps/brussels-sun/src/index.html",
-        "main": "apps/brussels-sun/src/main.ts",
+        "outputPath": "dist/apps/app-sun",
+        "index": "apps/app-sun/src/index.html",
+        "main": "apps/app-sun/src/main.ts",
         "polyfills": ["zone.js"],
-        "tsConfig": "apps/brussels-sun/tsconfig.app.json",
-        "assets": [
-          "apps/brussels-sun/src/favicon.ico",
-          "apps/brussels-sun/src/assets"
-        ],
-        "styles": ["apps/brussels-sun/src/styles.scss"],
+        "tsConfig": "apps/app-sun/tsconfig.app.json",
+        "assets": ["apps/app-sun/src/favicon.ico", "apps/app-sun/src/assets"],
+        "styles": ["apps/app-sun/src/styles.scss"],
         "scripts": []
       },
       "configurations": {
@@ -53,10 +50,10 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "buildTarget": "brussels-sun:build:production"
+          "buildTarget": "app-sun:build:production"
         },
         "development": {
-          "buildTarget": "brussels-sun:build:development"
+          "buildTarget": "app-sun:build:development"
         }
       },
       "defaultConfiguration": "development"
@@ -64,30 +61,27 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "buildTarget": "brussels-sun:build"
+        "buildTarget": "app-sun:build"
       }
     },
     "lint": {
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "apps/brussels-sun/**/*.ts",
-          "apps/brussels-sun/**/*.html"
-        ]
+        "lintFilePatterns": ["apps/app-sun/**/*.ts", "apps/app-sun/**/*.html"]
       }
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/brussels-sun/jest.config.ts"
+        "jestConfig": "apps/app-sun/jest.config.ts"
       }
     },
     "serve-static": {
       "executor": "@nx/web:file-server",
       "options": {
-        "buildTarget": "brussels-sun:build"
+        "buildTarget": "app-sun:build"
       }
     }
   }

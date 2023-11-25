@@ -1,7 +1,7 @@
 {
-  "name": "brussels-cloud",
+  "name": "app-cloud",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/brussels-cloud/src",
+  "sourceRoot": "apps/app-cloud/src",
   "projectType": "application",
   "targets": {
     "build": {
@@ -11,12 +11,12 @@
       "options": {
         "target": "node",
         "compiler": "tsc",
-        "outputPath": "dist/apps/brussels-cloud",
-        "main": "apps/brussels-cloud/src/main.ts",
-        "tsConfig": "apps/brussels-cloud/tsconfig.app.json",
-        "assets": ["apps/brussels-cloud/src/assets"],
+        "outputPath": "dist/apps/app-cloud",
+        "main": "apps/app-cloud/src/main.ts",
+        "tsConfig": "apps/app-cloud/tsconfig.app.json",
+        "assets": ["apps/app-cloud/src/assets"],
         "isolatedConfig": true,
-        "webpackConfig": "apps/brussels-cloud/webpack.config.js"
+        "webpackConfig": "apps/app-cloud/webpack.config.js"
       },
       "configurations": {
         "development": {},
@@ -27,14 +27,14 @@
       "executor": "@nx/js:node",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "brussels-cloud:build"
+        "buildTarget": "app-cloud:build"
       },
       "configurations": {
         "development": {
-          "buildTarget": "brussels-cloud:build:development"
+          "buildTarget": "app-cloud:build:development"
         },
         "production": {
-          "buildTarget": "brussels-cloud:build:production"
+          "buildTarget": "app-cloud:build:production"
         }
       }
     },
@@ -42,14 +42,14 @@
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/brussels-cloud/**/*.ts"]
+        "lintFilePatterns": ["apps/app-cloud/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/brussels-cloud/jest.config.ts"
+        "jestConfig": "apps/app-cloud/jest.config.ts"
       }
     }
   },

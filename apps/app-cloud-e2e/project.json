@@ -1,21 +1,21 @@
 {
-  "name": "brussels-cloud-e2e",
+  "name": "app-cloud-e2e",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "implicitDependencies": ["brussels-cloud"],
+  "implicitDependencies": ["app-cloud"],
   "projectType": "application",
   "targets": {
     "e2e": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{e2eProjectRoot}"],
       "options": {
-        "jestConfig": "apps/brussels-cloud-e2e/jest.config.ts"
+        "jestConfig": "apps/app-cloud-e2e/jest.config.ts"
       }
     },
     "lint": {
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/brussels-cloud-e2e/**/*.{js,ts}"]
+        "lintFilePatterns": ["apps/app-cloud-e2e/**/*.{js,ts}"]
       }
     }
   }
