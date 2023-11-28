@@ -1,10 +1,24 @@
 @import '../../../../shared-styles/src/lib/breakpoints';
 @import '../../../../shared-styles/src/lib/mixins';
 
-/* Adjust the .content-wrapper to take up the remaining width */
 .content-wrapper {
-  padding-top: 102px;
-  width: 100%; /* Takes up the remaining space */
-  overflow-y: hidden; /* Enables vertical scrolling if content overflows */
-  min-height: 100vh; /* Adjust the height as needed */
+  display: block;
+  background-image: url('../../../../../apps/app-sun/src/assets/image/image-4.jpg');
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.content-grid {
+  margin: auto;
+  max-width: 1200px;
+  overflow-y: hidden;
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-areas: space space content;
+  > .content {
+    grid-area: content;
+    padding: 24px;
+  }
 }

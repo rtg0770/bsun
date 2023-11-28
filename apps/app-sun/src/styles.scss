@@ -1,39 +1,63 @@
 /* You can add global styles to this file, and also import other style files */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap');
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import 'theme';
 @import '../../../libs/shared-styles/src/lib/mixins';
 @import '../../../libs/shared-styles/src/lib/breakpoints';
 
-html {scroll-behavior: smooth;}
-
-body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 400;
-    font-size: 1rem;
-    color: #F4F6F8;
-    background-color: #231F20;
+html {
+  scroll-behavior: smooth;
 }
 
-button, a {
-    &:hover {
-        cursor: pointer;
-    }
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+}
+
+button,
+a {
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 h1 {
-    font-size: clamp(3rem, 7vw, 5rem);
+  font-size: clamp(3rem, 7vw, 5rem);
 }
 
 h2 {
-    font-size: clamp(2rem, 5vw, 4rem);
+  font-size: clamp(2rem, 5vw, 4rem);
 }
 
 h3 {
-    font-size: clamp(1.5rem, 2vw, 2.5rem);
+  font-size: clamp(1.5rem, 2vw, 2.5rem);
+}
+h1,
+h2,
+h3 {
+  font-weight: 400;
+}
+p,
+button,
+a {
+  font-size: clamp(1rem, 1.5vw, 1.5rem);
 }
 
-p, button, a {
-    font-size: clamp(1rem, 1.5vw, 1.5rem);
+a {
+  padding: 9px 13px;
+  text-decoration: none;
+}
+
+.outlined {
+  border-radius: 24px;
+  box-sizing: border-box; /* Ensures padding and border are included in the total width and height */
+  border: 1px solid var(--text-color); /* Set a transparent border */
+  transition: border-color 0.3s; /* Optional: smooth transition for the border color */
+
+  &:hover {
+    border-color: transparent; /* Change border color on hover */
+    text-decoration: none;
+  }
 }

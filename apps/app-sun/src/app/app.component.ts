@@ -14,6 +14,12 @@ export class AppComponent {
     private domSanitizer: DomSanitizer
   ) {
     this.matIconRegistry.addSvgIcon(
+      'expand-more',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        '/assets/icons/expand-more.svg'
+      )
+    );
+    this.matIconRegistry.addSvgIcon(
       'logo',
       this.domSanitizer.bypassSecurityTrustResourceUrl(
         '/assets/icons/logo-small.svg'
@@ -34,9 +40,33 @@ export class AppComponent {
       this.domSanitizer.bypassSecurityTrustResourceUrl('/assets/icons/menu.svg')
     );
     this.matIconRegistry.addSvgIcon(
-      'solar-power',
+      'solar',
       this.domSanitizer.bypassSecurityTrustResourceUrl(
-        '/assets/icons/solar_power.svg'
+        '/assets/icons/solar.svg'
+      )
+    );
+    this.matIconRegistry.addSvgIcon(
+      'search',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        '/assets/icons/search.svg'
+      )
+    );
+    this.matIconRegistry.addSvgIcon(
+      'library',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        '/assets/icons/library.svg'
+      )
+    );
+    this.matIconRegistry.addSvgIcon(
+      'request',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        '/assets/icons/request.svg'
+      )
+    );
+    this.matIconRegistry.addSvgIcon(
+      'safety',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        '/assets/icons/safety.svg'
       )
     );
     this.matIconRegistry.addSvgIcon(

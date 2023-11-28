@@ -8,21 +8,31 @@ import { MatSidenav } from '@angular/material/sidenav';
 })
 export class LayoutComponent implements OnInit {
   @ViewChild('sidenav') sidenav!: MatSidenav;
-
+  isMobile?: boolean;
   // Set the initial sidenav mode
   sidenavMode: 'side' | 'over' = 'side';
+  logoLoaded = false;
 
   // The breakpoint to switch sidenav modes
   private sidenavBreakpoint = 992;
 
-  // Listen for window resize events
-  @HostListener('window:resize', ['$event'])
-  onResize(event: Event): void {
+  @HostListener('window:resize')
+  onResize() {
+    this.isMobile = window.innerWidth < this.sidenavBreakpoint;
     this.checkSidenavMode();
+  }
+
+  onLogoLoad() {
+    this.logoLoaded = true;
   }
 
   ngOnInit() {
     this.checkSidenavMode();
+  }
+
+  toggleSidenav(): void {
+    console.log('Toggling sidenav');
+    this.sidenav.toggle();
   }
 
   // Check sidenav mode based on window width

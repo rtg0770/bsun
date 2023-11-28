@@ -1,57 +1,75 @@
 @import '../../../../../shared-styles/src/lib/breakpoints';
 @import '../../../../../shared-styles/src/lib/mixins';
 
-.logo-wrapper {
-    display: block;
-    margin-top: 4px;
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+  //align-items: center;
+  width: 100%;
 }
 
 .mat-toolbar {
-    height: 79px;
-    background-color: #231F20;
+  height: 79px;
+  max-width: 1600px;
+  margin: auto;
+  background-color: transparent !important;
 }
 
-.flex-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-}
-
-.menu-toggle {
-    border: 0;
-    &:hover {
-        text-decoration: none;
-    }
-}
-
-mat-sidenav-container {
-    background-color: whitesmoke;
+.logo-wrapper {
+  display: block;
+  margin-top: 4px;
 }
 
 mat-sidenav-content {
-    display: block;
-    padding: 24px;
+  display: block;
 }
 
 mat-sidenav {
-    min-width: 25%;
-    max-width: 65%;
+  min-width: 55%;
+  max-width: 85%;
 }
 
 .fixed-mat-toolbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.menu-toggle {
+  display: none;
+}
+
+@media (max-width: 992px) {
+
+  .menu-toggle {
+    display: inline-block;
+    border: 0;
+    &:hover {
+      text-decoration: none;
+    }
   }
-  
 
+  .toolbar-left a,
+  .toolbar-left button,
+  .toolbar-right a {
+    display: none;
+  }
+}
 
-footer {
-    color: #F4F6F8;
-    padding: 24px;
-    background-color: #424852;
-    margin-bottom: 0;
+button mat-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+button mat-icon {
+  margin-left: 8px;
+}
+
+.logo-wrapper img {
+  width: 126px;
+  height: auto;
+  display: block;
 }

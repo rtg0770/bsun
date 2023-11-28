@@ -1,12 +1,51 @@
 <mat-toolbar class="flex-container fixed-mat-toolbar">
-  <a href="homepage" class="logo-wrapper"
-    ><img src="./assets/icons/logo-small.svg" alt="logo BS"
-  /></a>
+  <a href="homepage" class="logo-wrapper always-visible">
+    <img
+      src="./assets/icons/logo-full.svg"
+      alt="logo BS"
+      (load)="onLogoLoad()"
+    />
+  </a>
+
+  <!-- Left Section -->
+  <div *ngIf="logoLoaded" class="toolbar-left">
+    <a mat-fab extended [routerLink]="['/technologies']" disabled>
+      <mat-icon
+        aria-hidden="false"
+        aria-label="solar icon"
+        svgIcon="solar"
+      ></mat-icon>
+      Technologies
+    </a>
+
+    <a mat-fab extended [routerLink]="['/safety']" disabled>
+      <mat-icon
+        aria-hidden="false"
+        aria-label="safety icon"
+        svgIcon="safety"
+      ></mat-icon>
+      Safety
+    </a>
+  </div>
+
+  <!-- Right Section -->
+  <div *ngIf="logoLoaded" class="toolbar-right">
+    <a mat-fab extended [routerLink]="['/search']" disabled>
+      <mat-icon
+        aria-hidden="false"
+        aria-label="search icon"
+        svgIcon="search"
+      ></mat-icon
+      >Search</a
+    >
+  </div>
+
+  <!-- Menu Toggle -->
   <button
     mat-icon-button
-    aria-label="Example icon button with a menu icon"
+    aria-label="Menu"
     class="menu-toggle"
-    (click)="sidenav.toggle()"
+    (click)="toggleSidenav()"
   >
     <mat-icon
       aria-hidden="false"
@@ -17,16 +56,10 @@
 </mat-toolbar>
 
 <mat-sidenav-container>
-  <mat-sidenav #sidenav [mode]="sidenavMode" opened="false">
-    <nav>
-      <button
-        mat-button
-        [routerLink]="'/homepage'"
-        routerLinkActive="router-link-active"
-      >
-        Home
-      </button>
-    </nav>
+  <mat-sidenav #sidenav [mode]="sidenavMode" [opened]="false">
+    <!-- Sidenav content for mobile -->
   </mat-sidenav>
-  <mat-sidenav-content><ng-content></ng-content></mat-sidenav-content>
+  <mat-sidenav-content>
+    <ng-content></ng-content>
+  </mat-sidenav-content>
 </mat-sidenav-container>

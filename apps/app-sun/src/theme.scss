@@ -1,0 +1,60 @@
+@use '@angular/material' as mat;
+
+// Define the custom palettes
+$custom-yellow: (
+  // Your custom colors...
+  50: #FBE9A7,
+  // ...
+  100: #FBC707,
+  500: #FBC707, // Example primary color
+  700: #FBC707,
+  A100: #FBE9A7, // You can use the same color as one of the above or choose a different one
+  A200: #FBC707, // Example accent color
+  A400: #DBAC06,
+  A700: #BB9205,
+  contrast: (
+    // Your contrast colors...
+    50: black,
+    // ...
+    500: white, // Example primary contrast color
+    // ...
+    A200: black, // Example accent contrast color
+  )
+);
+
+$primary-palette: mat.define-palette($custom-yellow);
+$accent-palette: mat.define-palette($custom-yellow); // Using the same palette for simplicity
+$warn-palette: mat.define-palette(mat.$red-palette);
+
+// Define the theme
+$my-theme: mat.define-light-theme((
+  color: (
+    primary: $primary-palette,
+    accent: $accent-palette,
+    warn: $warn-palette,
+  ),
+));
+
+// Include theme styles for all components
+@include mat.all-component-themes($my-theme);
+
+// Define your custom global styles
+:root {
+  --text-color: #F4F6F8;
+  --text-hover-color: #636C77;
+  --background-color: #231F20;
+  --dark-text: #231F20;
+}
+
+body {
+  color: var(--text-color);
+  background-color: var(--background-color);
+}
+
+a, button, p, h1, h2 {
+  color: var(--text-color);
+}
+
+.dark-text {
+  color: var(--dark-text) !important;
+}

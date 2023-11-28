@@ -8,6 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { LayoutModule } from '@bishub-energy/layout';
 import { ConfigService } from '@bishub-energy/shared-services';
 import { environment } from '../environments/environment';
+import { MaterialModule } from '@bishub-energy/shared-ui';
 
 export function initializeApp(configService: ConfigService) {
   return () => (configService.googleMapsApiKey = environment.googleMapsApiKey);
@@ -16,6 +17,7 @@ export function initializeApp(configService: ConfigService) {
 @NgModule({
   declarations: [AppComponent],
   imports: [
+    MaterialModule,
     LayoutModule,
     HttpClientModule,
     BrowserAnimationsModule,
