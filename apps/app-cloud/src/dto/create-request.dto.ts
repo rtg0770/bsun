@@ -1,10 +1,35 @@
-import { CreateRequestDto as SharedCreateRequestDto } from '@bishub-energy/shared-types';
-import { IsString, IsNotEmpty } from 'class-validator';
+import { CreateQuoteRequestDto as SharedCreateRequestDto } from '@bishub-energy/shared-types';
+import {
+  IsString,
+  IsNotEmpty,
+  IsEmail,
+  IsPhoneNumber,
+  IsOptional,
+  IsNumber,
+} from 'class-validator';
 
-export class CreateRequestDto extends SharedCreateRequestDto {
+export class CreateRequestDto implements SharedCreateRequestDto {
   @IsString()
   @IsNotEmpty()
   name: string;
 
-  // ... other properties with additional decorators
+  @IsString()
+  @IsNotEmpty()
+  surname: string;
+
+  @IsEmail()
+  @IsNotEmpty()
+  email: string;
+
+  @IsPhoneNumber()
+  @IsOptional()
+  telephone: string;
+
+  @IsNumber()
+  @IsNotEmpty()
+  latitude: number;
+
+  @IsNumber()
+  @IsNotEmpty()
+  longitude: number;
 }

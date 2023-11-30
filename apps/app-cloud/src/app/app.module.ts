@@ -3,11 +3,14 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { QuotesModule } from './quotes/quotes.module';
+import { CheckoutStatus } from '../entity/checkout-status.entity';
+import { Quote } from '../entity/quote.entity';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true, // Make ConfigModule global
+      isGlobal: true,
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -16,11 +19,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       username: process.env.DATABASE_USER,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
-      entities: [
-        /* your entities here */
-      ],
-      synchronize: true, // set to false in production
+      entities: [CheckoutStatus, Quote],
+      synchronize: true,
     }),
+    QuotesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
