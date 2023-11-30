@@ -2,5 +2,7 @@ export interface CreateQuoteRequestDto {
   name: string;
   surname: string;
   email: string;
-  phone: string;
+  telephone: string;
+  latitude: number;
+  longitude: number;
 }

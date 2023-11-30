@@ -9,9 +9,11 @@ import { LayoutModule } from '@bishub-energy/layout';
 import { ConfigService } from '@bishub-energy/shared-services';
 import { environment } from '../environments/environment';
 import { MaterialModule } from '@bishub-energy/shared-ui';
+
 export function initializeApp(configService: ConfigService) {
   return () => {
     configService.googleMapsApiKey = environment.googleMapsApiKey;
+    configService.baseUrlApi = environment.baseUrlApi;
     return Promise.resolve();
   };
 }

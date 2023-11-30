@@ -75,7 +75,10 @@
     ></mat-icon>
   </div>
 
-  <mat-card *ngIf="locationConfirmed" class="address-card no-margin-top">
+  <mat-card
+    *ngIf="locationConfirmed && addressCompleted"
+    class="address-card no-margin-top"
+  >
     <mat-card-header>
       <mat-card-subtitle>SOLAR</mat-card-subtitle>
       <mat-card-title>Basic information</mat-card-title>

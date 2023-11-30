@@ -10,7 +10,7 @@ import {
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 // import { CreateQuoteRequestDto } from '@bishub-energy/shared-types';
-import { ConfigService } from '@bishub-energy/shared-services';
+import { ApiService, ConfigService } from '@bishub-energy/shared-services';
 import { Subscription } from 'rxjs';
 import { GoogleMapsAutocompleteComponent } from '@rng077/google-maps-autocomplete';
 
@@ -31,18 +31,6 @@ interface IMarker {
 export class QuoteFormComponent implements OnInit, OnDestroy {
   @ViewChild(GoogleMapsAutocompleteComponent)
   autocompleteComponent!: GoogleMapsAutocompleteComponent;
-
-  enableAutocomplete() {
-    if (this.autocompleteComponent) {
-      this.autocompleteComponent.enableInput();
-    }
-  }
-
-  disableAutocomplete() {
-    if (this.autocompleteComponent) {
-      this.autocompleteComponent.disableInput();
-    }
-  }
 
   @Output() submitForm = new EventEmitter<unknown>();
   requestQuoteForm: FormGroup;
@@ -70,7 +58,11 @@ export class QuoteFormComponent implements OnInit, OnDestroy {
    * @param http HttpClient for making API requests.
    * @param configService ConfigService for accessing configuration like API keys.
    */
-  constructor(private http: HttpClient, private configService: ConfigService) {
+  constructor(
+    private http: HttpClient,
+    private configService: ConfigService,
+    private apiService: ApiService
+  ) {
     // Initialize the form with saved data or empty values.
     const savedFormData = JSON.parse(
       localStorage.getItem('registrationForm') || '{}'
@@ -86,6 +78,18 @@ export class QuoteFormComponent implements OnInit, OnDestroy {
       ]),
       telephone: new FormControl(savedFormData.telephone || ''),
     });
+  }
+
+  enableAutocomplete() {
+    if (this.autocompleteComponent) {
+      this.autocompleteComponent.enableInput();
+    }
+  }
+
+  disableAutocomplete() {
+    if (this.autocompleteComponent) {
+      this.autocompleteComponent.disableInput();
+    }
   }
 
   /**
@@ -120,8 +124,12 @@ export class QuoteFormComponent implements OnInit, OnDestroy {
   onSubmit() {
     if (this.requestQuoteForm.valid) {
       console.log('Form Data: ', this.requestQuoteForm.value);
-      // Emit the form data using the submitForm EventEmitter
-      this.submitForm.emit(this.requestQuoteForm.value);
+      this.apiService
+        .submitQuoteRequest(this.requestQuoteForm.value)
+        .subscribe({
+          next: (response) => console.log('Response from server:', response),
+          error: (error) => console.error('Error:', error),
+        });
       // You can continue with other submission handling here, if necessary
     }
   }
