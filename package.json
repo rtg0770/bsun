@@ -18,7 +18,7 @@
     "@nestjs/common": "^10.0.2",
     "@nestjs/core": "^10.0.2",
     "@nestjs/platform-express": "^10.0.2",
-    "@rng077/google-maps-autocomplete": "^0.5.0",
+    "@rng077/google-maps-autocomplete": "^0.6.0",
     "axios": "^1.0.0",
     "dotenv": "^16.3.1",
     "leaflet": "^1.9.4",

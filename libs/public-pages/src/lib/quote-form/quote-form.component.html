@@ -16,6 +16,7 @@
         (addressDetailsSelect)="handleAddressDetailsSelect($event)"
         (addressSelect)="handleAddressSelect($event)"
         (coordinatesSelect)="handleCoordinatesSelect($event)"
+        #autocompleteComponent
       >
       </lib-google-maps-autocomplete>
       <p *ngIf="!addressCompleted" class="warn">
@@ -25,13 +26,13 @@
     </mat-card-content>
     <mat-card-footer>
       <mat-progress-bar
-        (mode)="(progressBarMode)"
-        [value]="progressBarValue"
+        mode="determinate"
+        [value]="progressBarStates.cardOne.value"
       ></mat-progress-bar>
     </mat-card-footer>
   </mat-card>
 
-  <div class="arrow">
+  <div *ngIf="addressCompleted" class="arrow">
     <mat-icon
       aria-hidden="false"
       aria-label="arrow_down icon"
@@ -39,7 +40,7 @@
     ></mat-icon>
   </div>
 
-  <mat-card *ngIf="addressCompleted" class="address-card no-margin-top">
+  <mat-card *ngIf="addressCompleted" class="address-card">
     <mat-card-header>
       <mat-card-subtitle>SOLAR</mat-card-subtitle>
       <mat-card-title>Check your location on the map</mat-card-title>
@@ -50,25 +51,108 @@
         Latitude: {{ coords.lat }}, Longitude: {{ coords.lng }}
       </div>
     </mat-card-content>
+    <mat-card-actions
+      ><button mat-stroked-button color="primary" (click)="confirmLocation()">
+        Continue</button
+      ><button mat-stroked-button color="warn" (click)="enableAutocomplete()">
+        Back
+      </button></mat-card-actions
+    >
+
+    <mat-card-footer>
+      <mat-progress-bar
+        mode="determinate"
+        [value]="progressBarStates.cardTwo.value"
+      ></mat-progress-bar>
+    </mat-card-footer>
   </mat-card>
-  <div *ngIf="insightReceived" class="arrow">
+
+  <div *ngIf="locationConfirmed" class="arrow">
     <mat-icon
       aria-hidden="false"
       aria-label="arrow_down icon"
       svgIcon="arrow_down"
     ></mat-icon>
   </div>
-  <mat-card *ngIf="insightReceived" class="address-card">
+
+  <mat-card *ngIf="locationConfirmed" class="address-card no-margin-top">
     <mat-card-header>
       <mat-card-subtitle>SOLAR</mat-card-subtitle>
-      <mat-card-title>Check your location on the map</mat-card-title>
+      <mat-card-title>Basic information</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <p>Check if your address matches your position on the map.</p>
-      <div *ngIf="coords">
-        Latitude: {{ coords.lat }}, Longitude: {{ coords.lng }}
-      </div>
+      <form [formGroup]="requestQuoteForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="fill">
+          <mat-label>Name</mat-label>
+          <input matInput type="text" formControlName="name" />
+          <mat-error
+            *ngIf="
+              requestQuoteForm.get('name')?.invalid &&
+              requestQuoteForm.get('name')?.touched
+            "
+          >
+            Name is required.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Surname</mat-label>
+          <input matInput type="text" formControlName="surname" />
+          <mat-error
+            *ngIf="
+              requestQuoteForm.get('surname')?.invalid &&
+              requestQuoteForm.get('surname')?.touched
+            "
+          >
+            Surname is required.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email" />
+          <mat-error
+            *ngIf="
+              requestQuoteForm.get('email')?.invalid &&
+              requestQuoteForm.get('email')?.touched
+            "
+          >
+            Please provide you email.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Telephone</mat-label>
+          <input matInput type="text" formControlName="telephone" />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Latitude</mat-label>
+          <input matInput value="" formControlName="latitude" />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Longitude</mat-label>
+          <input matInput type="text" formControlName="longitude" />
+        </mat-form-field>
+
+        <mat-card-actions
+          ><button
+            mat-stroked-button
+            color="primary"
+            type="submit"
+            [disabled]="!requestQuoteForm.valid"
+          >
+            Submit
+          </button></mat-card-actions
+        >
+      </form>
     </mat-card-content>
-    <button (click)="getSolarInsights()">Get solar insights</button>
+    <mat-card-footer>
+      <mat-progress-bar
+        mode="determinate"
+        [value]="progressBarStates.cardThree.value"
+      ></mat-progress-bar>
+    </mat-card-footer>
   </mat-card>
 </div>

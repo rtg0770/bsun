@@ -4,6 +4,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  ViewChild,
 } from '@angular/core';
 
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -11,6 +12,9 @@ import { HttpClient } from '@angular/common/http';
 // import { CreateQuoteRequestDto } from '@bishub-energy/shared-types';
 import { ConfigService } from '@bishub-energy/shared-services';
 import { Subscription } from 'rxjs';
+import { GoogleMapsAutocompleteComponent } from '@rng077/google-maps-autocomplete';
+
+type ProgressBarKey = 'cardOne' | 'cardTwo' | 'cardThree';
 
 interface IMarker {
   lat: number;
@@ -25,6 +29,21 @@ interface IMarker {
   styleUrls: ['./quote-form.component.scss'],
 })
 export class QuoteFormComponent implements OnInit, OnDestroy {
+  @ViewChild(GoogleMapsAutocompleteComponent)
+  autocompleteComponent!: GoogleMapsAutocompleteComponent;
+
+  enableAutocomplete() {
+    if (this.autocompleteComponent) {
+      this.autocompleteComponent.enableInput();
+    }
+  }
+
+  disableAutocomplete() {
+    if (this.autocompleteComponent) {
+      this.autocompleteComponent.disableInput();
+    }
+  }
+
   @Output() submitForm = new EventEmitter<unknown>();
   requestQuoteForm: FormGroup;
   selectedCountryCode: string = 'BE';
@@ -34,13 +53,17 @@ export class QuoteFormComponent implements OnInit, OnDestroy {
   googleMapsApiKey!: string;
 
   predictionSelected: boolean = false;
-  addressConfirmed: boolean = false;
+  locationConfirmed: boolean = false;
 
   addressCompleted = false;
   insightReceived = false;
   coords = { lat: 0, lng: 0 };
-  progressBarMode = 'indeterminate';
-  progressBarValue = 0;
+  progressBarStates: { [key in ProgressBarKey]: { value: number } } = {
+    cardOne: { value: 0 },
+    cardTwo: { value: 0 },
+    cardThree: { value: 0 },
+    // ... other cards if needed ...
+  };
 
   /**
    * Initializes the component with necessary services and form setup.
@@ -61,25 +84,7 @@ export class QuoteFormComponent implements OnInit, OnDestroy {
         Validators.required,
         Validators.email,
       ]),
-      telephone: new FormControl(savedFormData.telephone || '', [
-        Validators.required,
-      ]),
-
-      // TODO: Fill them in the form, make address values unavailable to change somehow
-      // New address fields including house number
-      street: new FormControl(savedFormData.street || '', [
-        Validators.required,
-      ]),
-      houseNumber: new FormControl(savedFormData.houseNumber || '', [
-        Validators.required,
-      ]),
-      city: new FormControl(savedFormData.city || '', [Validators.required]),
-      postalCode: new FormControl(savedFormData.postalCode || '', [
-        Validators.required,
-      ]),
-      country: new FormControl(savedFormData.country || '', [
-        Validators.required,
-      ]),
+      telephone: new FormControl(savedFormData.telephone || ''),
     });
   }
 
@@ -92,6 +97,33 @@ export class QuoteFormComponent implements OnInit, OnDestroy {
         this.googleMapsApiKey = key;
       })
     );
+    this.requestQuoteForm = new FormGroup({
+      name: new FormControl('', [Validators.required]),
+      surname: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      telephone: new FormControl(''),
+      latitude: new FormControl(''),
+      longitude: new FormControl(''),
+    });
+  }
+
+  // Example function where you might set these values
+  setCoordinates(lat: number, lng: number) {
+    this.requestQuoteForm.get('latitude')!.enable();
+    this.requestQuoteForm.get('longitude')!.enable();
+    this.requestQuoteForm.patchValue({
+      latitude: lat,
+      longitude: lng,
+    });
+  }
+
+  onSubmit() {
+    if (this.requestQuoteForm.valid) {
+      console.log('Form Data: ', this.requestQuoteForm.value);
+      // Emit the form data using the submitForm EventEmitter
+      this.submitForm.emit(this.requestQuoteForm.value);
+      // You can continue with other submission handling here, if necessary
+    }
   }
 
   ngOnDestroy() {
@@ -100,9 +132,20 @@ export class QuoteFormComponent implements OnInit, OnDestroy {
 
   getSolarInsights() {}
 
-  completeProgress() {
-    this.progressBarMode = 'determinate';
-    this.progressBarValue = 100;
+  unCompleteProgress(cardIdentifier: ProgressBarKey) {
+    if (this.progressBarStates[cardIdentifier]) {
+      this.progressBarStates[cardIdentifier].value = 0;
+    } else {
+      console.warn(`Progress bar state for ${cardIdentifier} not found`);
+    }
+  }
+
+  completeProgress(cardIdentifier: ProgressBarKey) {
+    if (this.progressBarStates[cardIdentifier]) {
+      this.progressBarStates[cardIdentifier].value = 100;
+    } else {
+      console.warn(`Progress bar state for ${cardIdentifier} not found`);
+    }
   }
 
   /**
@@ -129,7 +172,14 @@ export class QuoteFormComponent implements OnInit, OnDestroy {
    */
   handleCoordinatesSelect(coords: { lat: number; lng: number }): void {
     this.coords = coords;
+    this.setCoordinates(coords.lat, coords.lng);
     console.log(coords);
+  }
+
+  confirmLocation() {
+    console.log('location ok');
+    this.locationConfirmed = true;
+    this.completeProgress('cardTwo');
   }
 
   /**
@@ -148,8 +198,11 @@ export class QuoteFormComponent implements OnInit, OnDestroy {
       if (hasHouseNumber) {
         console.log('It has house number');
         this.addressCompleted = true;
-        this.completeProgress();
+        this.completeProgress('cardOne');
+        this.disableAutocomplete();
       } else {
+        this.addressCompleted = false;
+        this.unCompleteProgress('cardOne');
         console.warn('It does not have a house number');
       }
     } else {

@@ -1,13 +1,18 @@
 @import '../../../../shared-styles/src/lib/breakpoints';
 @import '../../../../shared-styles/src/lib/mixins';
 
+mat-form-field {
+  width: 100%;
+}
+
 lib-google-maps-autocomplete {
   z-index: 1000000;
 }
 
 .wrapper {
-  height: 100%;
-  width: 100%;
+  min-height: 85vh;
+  width: auto;
+  padding: 24px;
   > lib-google-maps-autocomplete {
     margin: auto;
   }
