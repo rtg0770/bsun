@@ -6,7 +6,6 @@ import { QuoteFormComponent } from './quote-form/quote-form.component';
 import { MaterialModule } from '@bishub-energy/shared-ui';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GoogleMapsAutocompleteComponent } from '@rng077/google-maps-autocomplete';
-import { ConfigService } from '@bishub-energy/shared-services';
 import { AboutUsComponent } from './about-us/about-us.component';
 
 @NgModule({
@@ -19,6 +18,6 @@ import { AboutUsComponent } from './about-us/about-us.component';
     PublicPagesRoutingModule,
   ],
   declarations: [HomepageComponent, QuoteFormComponent, AboutUsComponent],
-  providers: [ConfigService],
+  providers: [],
 })
 export class PublicPagesModule {}

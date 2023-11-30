@@ -14,6 +14,12 @@ export class AppComponent {
     private domSanitizer: DomSanitizer
   ) {
     this.matIconRegistry.addSvgIcon(
+      'arrow_down',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        '/assets/icons/arrow_down.svg'
+      )
+    );
+    this.matIconRegistry.addSvgIcon(
       'expand-more',
       this.domSanitizer.bypassSecurityTrustResourceUrl(
         '/assets/icons/expand-more.svg'

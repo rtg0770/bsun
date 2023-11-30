@@ -3,6 +3,7 @@
 @import 'theme';
 @import '../../../libs/shared-styles/src/lib/mixins';
 @import '../../../libs/shared-styles/src/lib/breakpoints';
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 
 html {
   scroll-behavior: smooth;
@@ -34,15 +35,21 @@ h2 {
 h3 {
   font-size: clamp(1.5rem, 2vw, 2.5rem);
 }
+
+h4 {
+  font-size: clamp(1.2rem, 2vw, 2rem);
+}
+
 h1,
 h2,
-h3 {
+h3,
+h4 {
   font-weight: 400;
 }
 p,
 button,
 a {
-  font-size: clamp(1rem, 1.5vw, 1.5rem);
+  font-size: clamp(1rem, 1.3vw, 1.2rem);
 }
 
 a {

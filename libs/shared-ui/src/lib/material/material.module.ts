@@ -12,9 +12,15 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   imports: [
+    MatDividerModule,
+    MatProgressBarModule,
+    MatCheckboxModule,
     MatFormFieldModule,
     MatStepperModule,
     MatInputModule,
@@ -30,6 +36,9 @@ import { MatStepperModule } from '@angular/material/stepper';
     MatSelectModule,
   ],
   exports: [
+    MatDividerModule,
+    MatProgressBarModule,
+    MatCheckboxModule,
     MatFormFieldModule,
     MatStepperModule,
     MatInputModule,

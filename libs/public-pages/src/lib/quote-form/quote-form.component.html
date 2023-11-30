@@ -1,82 +1,74 @@
-<div class="content-wrapper">
-  <form [formGroup]="requestQuoteForm" (ngSubmit)="submitQuoteRequest()">
-    <div class="cards">
-      <!-- Basic Information Card -->
-      <mat-card>
-        <mat-card-title>Basic information</mat-card-title>
-        <mat-card-content>
-          <mat-form-field>
-            <mat-label>Name</mat-label>
-            <input matInput formControlName="name" />
-            <!-- Add your error messages here -->
-          </mat-form-field>
-
-          <mat-form-field>
-            <mat-label>Surname</mat-label>
-            <input matInput formControlName="surname" />
-            <!-- Add your error messages here -->
-          </mat-form-field>
-
-          <mat-form-field>
-            <mat-label>E-mail</mat-label>
-            <input matInput formControlName="email" />
-            <!-- Add your error messages here -->
-          </mat-form-field>
-
-          <mat-form-field>
-            <mat-label>Telephone number</mat-label>
-            <input matInput formControlName="telephone" />
-            <!-- Add your error messages here -->
-          </mat-form-field>
-        </mat-card-content>
-      </mat-card>
-
-      <!-- Location Information Card -->
-      <mat-card>
-        <mat-card-title>Location</mat-card-title>
-        <mat-card-content>
-          <lib-google-maps-autocomplete
-            [apiKey]="googleMapsApiKey"
-            [countryCode]="selectedCountryCode"
-            (addressDetailsSelect)="handleAddressDetailsSelect($event)"
-          >
-          </lib-google-maps-autocomplete>
-
-          <mat-form-field>
-            <mat-label>Street</mat-label>
-            <input matInput formControlName="street" />
-            <!-- Add your error messages here -->
-          </mat-form-field>
-
-          <mat-form-field>
-            <mat-label>House number</mat-label>
-            <input matInput formControlName="houseNumber" />
-            <!-- Add your error messages here -->
-          </mat-form-field>
-
-          <mat-form-field>
-            <mat-label>City</mat-label>
-            <input matInput formControlName="city" />
-            <!-- Add your error messages here -->
-          </mat-form-field>
-
-          <mat-form-field>
-            <mat-label>Country</mat-label>
-            <input matInput formControlName="country" />
-            <!-- Add your error messages here -->
-          </mat-form-field>
-        </mat-card-content>
-      </mat-card>
-    </div>
-    <div class="actions">
-      <button
-        [disabled]="!requestQuoteForm.valid"
-        mat-raised-button
-        color="primary"
-        type="submit"
+<div class="wrapper">
+  <mat-card class="address-card">
+    <mat-card-header>
+      <mat-card-subtitle>SOLAR</mat-card-subtitle>
+      <mat-card-title>Set your location</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>
+        Enter your full address (including house number) and select a prediction
+        to set exact location. Confirm on the map that the location matches your
+        needs.
+      </p>
+      <lib-google-maps-autocomplete
+        [apiKey]="googleMapsApiKey"
+        [countryCode]="selectedCountryCode"
+        (addressDetailsSelect)="handleAddressDetailsSelect($event)"
+        (addressSelect)="handleAddressSelect($event)"
+        (coordinatesSelect)="handleCoordinatesSelect($event)"
       >
-        Submit
-      </button>
-    </div>
-  </form>
+      </lib-google-maps-autocomplete>
+      <p *ngIf="!addressCompleted" class="warn">
+        You have to provide a house number!
+      </p>
+      <mat-divider></mat-divider>
+    </mat-card-content>
+    <mat-card-footer>
+      <mat-progress-bar
+        (mode)="(progressBarMode)"
+        [value]="progressBarValue"
+      ></mat-progress-bar>
+    </mat-card-footer>
+  </mat-card>
+
+  <div class="arrow">
+    <mat-icon
+      aria-hidden="false"
+      aria-label="arrow_down icon"
+      svgIcon="arrow_down"
+    ></mat-icon>
+  </div>
+
+  <mat-card *ngIf="addressCompleted" class="address-card no-margin-top">
+    <mat-card-header>
+      <mat-card-subtitle>SOLAR</mat-card-subtitle>
+      <mat-card-title>Check your location on the map</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>Check if your address matches your position on the map.</p>
+      <div *ngIf="coords">
+        Latitude: {{ coords.lat }}, Longitude: {{ coords.lng }}
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <div *ngIf="insightReceived" class="arrow">
+    <mat-icon
+      aria-hidden="false"
+      aria-label="arrow_down icon"
+      svgIcon="arrow_down"
+    ></mat-icon>
+  </div>
+  <mat-card *ngIf="insightReceived" class="address-card">
+    <mat-card-header>
+      <mat-card-subtitle>SOLAR</mat-card-subtitle>
+      <mat-card-title>Check your location on the map</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>Check if your address matches your position on the map.</p>
+      <div *ngIf="coords">
+        Latitude: {{ coords.lat }}, Longitude: {{ coords.lng }}
+      </div>
+    </mat-card-content>
+    <button (click)="getSolarInsights()">Get solar insights</button>
+  </mat-card>
 </div>

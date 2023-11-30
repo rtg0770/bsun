@@ -1,10 +1,79 @@
 @import '../../../../shared-styles/src/lib/breakpoints';
 @import '../../../../shared-styles/src/lib/mixins';
+@import '../../../../../apps/app-sun/src/theme.scss';
 
-/* Adjust the .content-wrapper to take up the remaining width */
-.content-wrapper {
+.parent-container {
+  display: grid;
+  grid-template-areas: 'introductory' 'why-choose' 'original-features' 'nationwide-warranty' 'request-quote';
+  max-width: 1200px;
+  margin: auto;
   padding-top: 102px;
-  width: 100%; /* Takes up the remaining space */
-  overflow-y: hidden; /* Enables vertical scrolling if content overflows */
-  min-height: 100vh; /* Adjust the height as needed */
+  grid-gap: 24px;
+  align-content: center;
+  align-items: center;
+
+  > #introductory {
+    grid: introductory;
+    display: grid;
+    grid-gap: 24px;
+    grid-template-areas: 'title title' 'paragraph image';
+    grid-template-columns: repeat(1fr, 2);
+
+    > .title-group {
+      grid-area: title;
+    }
+    > .paragraph {
+      grid-area: paragraph;
+    }
+    > .img-wrapper {
+      grid-area: image;
+      > img {
+        max-width: 590px;
+      }
+    }
+  }
+  > #why-choose {
+    grid: why-choose;
+    display: grid;
+    grid-gap: 24px;
+    grid-template-areas: 'title title' 'local custom' 'certified nationwide';
+
+    > h3 {
+      grid-area: title;
+    }
+
+    > .local {
+      grid-area: local;
+    }
+
+    > .custom {
+      grid-area: custom;
+    }
+
+    > .certified {
+      grid-area: certified;
+    }
+
+    > .nationwide {
+      grid-area: nationwide;
+    }
+  }
+  > #original-features {
+    grid: original-features;
+    display: grid;
+    grid-gap: 24px;
+    grid-template-areas: 'title title' 'sensor buyback';
+    > h3 {
+      grid-area: title;
+    }
+  }
+
+  > #request-quote {
+    grid: request-quote;
+  }
+}
+
+.wrapper {
+  color: var(--text-color);
+  background-color: var(--background-color);
 }

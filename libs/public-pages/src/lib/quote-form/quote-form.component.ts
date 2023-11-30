@@ -1,27 +1,53 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
+
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { CreateQuoteRequestDto } from '@bishub-energy/shared-types';
+// import { CreateQuoteRequestDto } from '@bishub-energy/shared-types';
 import { ConfigService } from '@bishub-energy/shared-services';
+import { Subscription } from 'rxjs';
+
+interface IMarker {
+  lat: number;
+  lng: number;
+  class?: string;
+  description: string;
+}
 
 @Component({
   selector: 'bishub-energy-quote-form',
   templateUrl: './quote-form.component.html',
   styleUrls: ['./quote-form.component.scss'],
 })
-export class QuoteFormComponent implements OnInit {
+export class QuoteFormComponent implements OnInit, OnDestroy {
   @Output() submitForm = new EventEmitter<unknown>();
   requestQuoteForm: FormGroup;
-  googleMapsApiKey: string;
   selectedCountryCode: string = 'BE';
+  isLinear = true;
+  markers!: IMarker[];
+  private subscription: Subscription = new Subscription();
+  googleMapsApiKey!: string;
+
+  predictionSelected: boolean = false;
+  addressConfirmed: boolean = false;
+
+  addressCompleted = false;
+  insightReceived = false;
+  coords = { lat: 0, lng: 0 };
+  progressBarMode = 'indeterminate';
+  progressBarValue = 0;
+
   /**
    * Initializes the component with necessary services and form setup.
    * @param http HttpClient for making API requests.
    * @param configService ConfigService for accessing configuration like API keys.
    */
   constructor(private http: HttpClient, private configService: ConfigService) {
-    this.googleMapsApiKey = this.configService.googleMapsApiKey;
-
     // Initialize the form with saved data or empty values.
     const savedFormData = JSON.parse(
       localStorage.getItem('registrationForm') || '{}'
@@ -38,6 +64,8 @@ export class QuoteFormComponent implements OnInit {
       telephone: new FormControl(savedFormData.telephone || '', [
         Validators.required,
       ]),
+
+      // TODO: Fill them in the form, make address values unavailable to change somehow
       // New address fields including house number
       street: new FormControl(savedFormData.street || '', [
         Validators.required,
@@ -52,7 +80,6 @@ export class QuoteFormComponent implements OnInit {
       country: new FormControl(savedFormData.country || '', [
         Validators.required,
       ]),
-      // ... any other address fields you need
     });
   }
 
@@ -60,7 +87,22 @@ export class QuoteFormComponent implements OnInit {
    * Lifecycle hook that is called after data-bound properties are initialized.
    */
   ngOnInit() {
-    console.log('Init form');
+    this.subscription.add(
+      this.configService.googleMapsApiKey$.subscribe((key) => {
+        this.googleMapsApiKey = key;
+      })
+    );
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
+  getSolarInsights() {}
+
+  completeProgress() {
+    this.progressBarMode = 'determinate';
+    this.progressBarValue = 100;
   }
 
   /**
@@ -68,38 +110,9 @@ export class QuoteFormComponent implements OnInit {
    * Validates the form and posts the data to the server.
    */
   submitQuoteRequest() {
-    if (this.requestQuoteForm.valid) {
-      const formData = this.requestQuoteForm.value;
-
-      // Convert the form data to the required DTO format.
-      const quoteData: CreateQuoteRequestDto = {
-        name: formData.name,
-        surname: formData.surname,
-        email: formData.email,
-        phone: formData.telephone,
-      };
-
-      // Post the quote data to the server and handle the response.
-      this.http
-        .post('http://localhost:3000/api/requestquote', quoteData)
-        .subscribe(
-          (response) => {
-            console.log('Quote sent successfully', response);
-            localStorage.removeItem('requestQuoteForm');
-          },
-          (error) => {
-            console.log('Failed to send the quote request', error);
-          }
-        );
-      // If address fields are also valid, convert to coordinates
-      if (this.isAddressComplete()) {
-        // Assuming `isAddressComplete` is a method that checks if all address fields are filled
-        this.convertAddressToCoordinates();
-      }
-    } else {
-      // Inform the user which fields are invalid
-      this.markAllFieldsAsTouched(); // Utility method to trigger display of validation messages
-    }
+    // create object according to the dto
+    // send request to the endpoint
+    // API: create a record in the db > handle payment success vs. fail > navigate to complete process
   }
 
   /**
@@ -115,6 +128,7 @@ export class QuoteFormComponent implements OnInit {
    * @param coords Object containing latitude and longitude.
    */
   handleCoordinatesSelect(coords: { lat: number; lng: number }): void {
+    this.coords = coords;
     console.log(coords);
   }
 
@@ -124,65 +138,32 @@ export class QuoteFormComponent implements OnInit {
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   handleAddressDetailsSelect(details: any): void {
-    // Initialize an empty object to hold the address components
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const address: any = {
-      street: '',
-      houseNumber: '',
-      city: '',
-      postalCode: '',
-      country: '',
-    };
+    console.log('DETAILS:', details);
 
-    // Iterate over the address components to assign the values to the address object
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    details.address_components.forEach((component: any) => {
-      // Use the types array to determine the type of each address component
-      if (component.types.includes('street_number')) {
-        address.houseNumber = component.long_name;
-      } else if (component.types.includes('route')) {
-        address.street = component.long_name;
-      } else if (component.types.includes('locality')) {
-        address.city = component.long_name;
-      } else if (component.types.includes('postal_code')) {
-        address.postalCode = component.long_name;
-      } else if (component.types.includes('country')) {
-        address.country = component.long_name;
+    // Check if address_components is defined and is an array
+    if (Array.isArray(details.address_components)) {
+      const hasHouseNumber = this.checkForHouseNumber(
+        details.address_components
+      );
+      if (hasHouseNumber) {
+        console.log('It has house number');
+        this.addressCompleted = true;
+        this.completeProgress();
+      } else {
+        console.warn('It does not have a house number');
       }
-      // Add other address components here if needed
-    });
-
-    // Patch the values to the form
-    this.requestQuoteForm.patchValue(address);
-
-    // Optionally, focus on the next empty field in the form or perform other actions
+    } else {
+      // Handle the scenario where address_components is undefined
+      console.warn('Address components are undefined');
+      // You may want to take additional actions here, like setting an error state
+    }
   }
 
-  // Utility method to mark all fields as touched to show validation errors
-  markAllFieldsAsTouched() {
-    Object.keys(this.requestQuoteForm.controls).forEach((field) => {
-      const control = this.requestQuoteForm.get(field);
-      if (control) {
-        // This check ensures that control is not null
-        control.markAsTouched({ onlySelf: true });
-      }
-    });
-  }
-
-  // Method to check if all address fields are filled
-  isAddressComplete() {
-    return (
-      this.requestQuoteForm.controls['street'].valid &&
-      this.requestQuoteForm.controls['houseNumber'].valid &&
-      this.requestQuoteForm.controls['city'].valid &&
-      this.requestQuoteForm.controls['postalCode'].valid &&
-      this.requestQuoteForm.controls['country'].valid
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private checkForHouseNumber(addressComponents: any[]): boolean {
+    const houseNumberTypes = ['street_number'];
+    return addressComponents.some((component) =>
+      houseNumberTypes.includes(component.types[0])
     );
-  }
-
-  // Stub for address to coordinates conversion
-  convertAddressToCoordinates() {
-    // Use a geocoding service to convert address to coordinates
-    // Then emit or use the coordinates for the solar API call
   }
 }
