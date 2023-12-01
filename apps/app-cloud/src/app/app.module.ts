@@ -6,7 +6,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { QuotesModule } from './quotes/quotes.module';
 import { CheckoutStatus } from '../entity/checkout-status.entity';
 import { Quote } from '../entity/quote.entity';
-import { GoogleMapsService } from '../services/google-maps.service';
 import { HttpModule } from '@nestjs/axios';
 
 @Module({
@@ -28,6 +27,6 @@ import { HttpModule } from '@nestjs/axios';
     HttpModule,
   ],
   controllers: [AppController],
-  providers: [AppService, GoogleMapsService],
+  providers: [AppService],
 })
 export class AppModule {}

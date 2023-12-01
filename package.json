@@ -2,7 +2,9 @@
   "name": "@bishub-energy/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "start:both": "concurrently \"nx serve app-sun\" \"nx serve app-cloud\""
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "17.0.4",
@@ -65,6 +67,7 @@
     "@types/node": "~18.7.1",
     "@typescript-eslint/eslint-plugin": "6.9.1",
     "@typescript-eslint/parser": "6.9.1",
+    "concurrently": "^8.2.2",
     "cypress": "^13.0.0",
     "eslint": "~8.46.0",
     "eslint-config-prettier": "9.0.0",
