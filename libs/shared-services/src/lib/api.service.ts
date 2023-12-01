@@ -25,7 +25,7 @@ export class ApiService {
     formData: CreateQuoteRequestDto
   ): Observable<QuoteResponseDto> {
     return this.http.post<QuoteResponseDto>(
-      `${this.baseUrl}/insightRequest`,
+      `${this.baseUrl}/quotes/insightRequest`,
       formData
     );
   }

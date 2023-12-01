@@ -3,7 +3,6 @@ import {
   PrimaryGeneratedColumn,
   Column,
   OneToOne,
-  JoinColumn,
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -12,8 +11,8 @@ import { IQuote } from '@bishub-energy/shared-types';
 
 @Entity()
 export class Quote implements IQuote {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
   name: string;
@@ -21,9 +20,14 @@ export class Quote implements IQuote {
   @Column()
   surname: string;
 
-  @Column('json')
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  solarApiResponse: any;
+  @Column({ type: 'decimal', nullable: true })
+  latitude: number;
+
+  @Column({ type: 'decimal', nullable: true })
+  longitude: number;
+
+  @Column('json', { nullable: true })
+  solarApiResponse: unknown;
 
   @CreateDateColumn()
   dateCreated: Date;
@@ -31,7 +35,6 @@ export class Quote implements IQuote {
   @UpdateDateColumn()
   dateUpdated: Date;
 
-  @OneToOne(() => CheckoutStatus, { eager: true, cascade: true })
-  @JoinColumn()
+  @OneToOne(() => CheckoutStatus, (checkoutStatus) => checkoutStatus.quote)
   checkoutStatus: CheckoutStatus;
 }

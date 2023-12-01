@@ -6,9 +6,9 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: pass321
-      POSTGRES_DB: db-2
+      POSTGRES_DB: sun-database
     ports:
-      - '5435:5432'
+      - '5432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
 volumes:

@@ -1,4 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToOne,
+  JoinColumn,
+} from 'typeorm';
 import { Quote } from './quote.entity';
 import { ICheckoutStatus } from '@bishub-energy/shared-types';
 
@@ -8,10 +14,9 @@ export class CheckoutStatus implements ICheckoutStatus {
   id: number;
 
   @Column()
-  status: string; // For example, 'pending', 'completed', 'failed', etc.
+  status: string; // e.g., 'pending', 'completed', 'failed'
 
-  // Include other fields relevant to the checkout process
-
-  @OneToOne(() => Quote, (quote) => quote.checkoutStatus)
+  @OneToOne(() => Quote)
+  @JoinColumn()
   quote: Quote;
 }

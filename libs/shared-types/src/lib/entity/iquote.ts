@@ -1,5 +1,5 @@
 export interface IQuote {
-  id: number;
+  id: string;
   name: string;
   surname: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

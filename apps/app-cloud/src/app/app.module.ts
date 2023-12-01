@@ -6,6 +6,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { QuotesModule } from './quotes/quotes.module';
 import { CheckoutStatus } from '../entity/checkout-status.entity';
 import { Quote } from '../entity/quote.entity';
+import { GoogleMapsService } from '../services/google-maps.service';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
   imports: [
@@ -23,8 +25,9 @@ import { Quote } from '../entity/quote.entity';
       synchronize: true,
     }),
     QuotesModule,
+    HttpModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, GoogleMapsService],
 })
 export class AppModule {}

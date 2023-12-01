@@ -76,7 +76,7 @@ export class QuoteFormComponent implements OnInit, OnDestroy {
         Validators.required,
         Validators.email,
       ]),
-      telephone: new FormControl(savedFormData.telephone || ''),
+      telephone: new FormControl(savedFormData.telephone || null),
     });
   }
 
@@ -105,7 +105,7 @@ export class QuoteFormComponent implements OnInit, OnDestroy {
       name: new FormControl('', [Validators.required]),
       surname: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
-      telephone: new FormControl(''),
+      telephone: new FormControl(null),
       latitude: new FormControl(''),
       longitude: new FormControl(''),
     });
