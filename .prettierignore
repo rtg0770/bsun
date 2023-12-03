@@ -4,3 +4,5 @@
 .angular
 
 /.nx/cache
+
+./apps/app-cloud/src/assets/spheric-entity-401908-e3118df4ec62.json

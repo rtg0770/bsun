@@ -124,6 +124,7 @@ export class QuoteFormComponent implements OnInit, OnDestroy {
   onSubmit() {
     if (this.requestQuoteForm.valid) {
       console.log('Form Data: ', this.requestQuoteForm.value);
+      this.completeProgress('cardThree');
       this.apiService
         .submitQuoteRequest(this.requestQuoteForm.value)
         .subscribe({

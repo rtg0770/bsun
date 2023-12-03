@@ -25,29 +25,30 @@ export class QuotesService {
       where: { id: quoteId },
       relations: ['checkoutStatus'],
     });
-
-    if (quote) {
-      // Update CheckoutStatus
-      if (quote.checkoutStatus) {
-        quote.checkoutStatus.status = 'completed'; // Example status
-        // You might need to save this status change in the database
-      }
-
-      // Fetch Solar Insights
-      const insights = await this.googleMapsService.getSolarInsights(
-        quote.latitude,
-        quote.longitude
-      );
-      quote.solarApiResponse = insights;
-      await this.quoteRepository.save(quote);
+  
+    if (!quote) {
+      throw new Error(`Quote not found with ID: ${quoteId}`);
     }
+  
+    // Update CheckoutStatus to 'completed'
+    if (quote.checkoutStatus) {
+      quote.checkoutStatus.status = 'completed';
+      // Save changes to the checkout status if necessary
+    }
+  
+    // Fetch Solar Insights
+    const insights = await this.googleMapsService.getSolarInsights(
+      quote.latitude,
+      quote.longitude
+    );
+    quote.solarApiResponse = insights;
+    await this.quoteRepository.save(quote);
   }
+  
 
   async mockStripePayment(quoteId: string): Promise<void> {
-    // Simulate payment processing
     console.log(`Simulating payment for quote ${quoteId}`);
-
-    // Call the method to handle post-payment logic
     await this.handlePaymentSuccess(quoteId);
   }
+  
 }

@@ -17,12 +17,12 @@ export class QuotesController {
     try {
       const quote = await this.quotesService.createQuote(createQuoteDto);
 
-      // Simulate payment success for testing
+      // Simulate payment success and handle post-payment actions
       await this.quotesService.mockStripePayment(quote.id);
 
       return quote;
     } catch (error) {
-      console.log('ERROR:', error);
+      console.error('ERROR:', error);
       throw new HttpException(
         'Failed to create quote',
         HttpStatus.INTERNAL_SERVER_ERROR
@@ -30,3 +30,5 @@ export class QuotesController {
     }
   }
 }
+
+
